@@ -1,17 +1,30 @@
-//
-//  SafeWalkApp.swift
-//  SafeWalk
-//
-//  Created by COBSCCOMP242P-064 on 2026-04-04.
-//
-
 import SwiftUI
+import FirebaseCore
 
 @main
 struct SafeWalkApp: App {
+    
+    @StateObject private var session = UserSessionManager()
+    @StateObject private var locationManager = LocationManager()
+    @StateObject private var notificationManager = NotificationManager()
+    
+    init() {
+        FirebaseApp.configure()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if session.hasCompletedOnboarding {
+                MainTabView()
+                    .environmentObject(session)
+                    .environmentObject(locationManager)
+                    .environmentObject(notificationManager)
+            } else {
+                OnboardingView()
+                    .environmentObject(session)
+                    .environmentObject(locationManager)
+                    .environmentObject(notificationManager)
+            }
         }
     }
 }
