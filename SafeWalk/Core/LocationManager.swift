@@ -15,6 +15,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
     
+    // Route Recording
+    @Published var recordedCoordinates: [CLLocationCoordinate2D] = []
+    private var isRecordingRoute: Bool = false
+    
     private var safeZones: [CLCircularRegion] = []
     
     override init() {
@@ -27,6 +31,18 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     func requestPermission() {
         manager.requestAlwaysAuthorization()
     }
+
+    /// Keeps GPS warm on the Map tab (When In Use is enough for the map).
+    func requestWhenInUseForMap() {
+        switch manager.authorizationStatus {
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+        case .authorizedWhenInUse, .authorizedAlways:
+            manager.startUpdatingLocation()
+        default:
+            break
+        }
+    }
     
     func startTracking() {
         manager.startUpdatingLocation()
@@ -35,6 +51,20 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func stopTracking() {
         manager.stopUpdatingLocation()
+    }
+    
+    // MARK: - Route Recording
+    func startRecordingRoute() {
+        DispatchQueue.main.async {
+            self.recordedCoordinates.removeAll()
+            self.isRecordingRoute = true
+        }
+    }
+    
+    func stopRecordingRoute() {
+        DispatchQueue.main.async {
+            self.isRecordingRoute = false
+        }
     }
     
     // MARK: - SafeZones
@@ -62,6 +92,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 center: location.coordinate,
                 span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             )
+            
+            if self.isRecordingRoute {
+                self.recordedCoordinates.append(location.coordinate)
+            }
         }
     }
     

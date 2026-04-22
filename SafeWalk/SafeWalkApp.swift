@@ -1,5 +1,5 @@
+import Combine
 import SwiftUI
-import FirebaseCore
 
 @main
 struct SafeWalkApp: App {
@@ -7,9 +7,10 @@ struct SafeWalkApp: App {
     @StateObject private var session = UserSessionManager()
     @StateObject private var locationManager = LocationManager()
     @StateObject private var notificationManager = NotificationManager()
+    @StateObject private var routeService = RouteService()
     
     init() {
-        FirebaseApp.configure()
+        FirebaseBootstrap.configureIfNeeded()
     }
     
     var body: some Scene {
@@ -19,11 +20,13 @@ struct SafeWalkApp: App {
                     .environmentObject(session)
                     .environmentObject(locationManager)
                     .environmentObject(notificationManager)
+                    .environmentObject(routeService)
             } else {
-                OnboardingView()
+                LoginView()
                     .environmentObject(session)
                     .environmentObject(locationManager)
                     .environmentObject(notificationManager)
+                    .environmentObject(routeService)
             }
         }
     }

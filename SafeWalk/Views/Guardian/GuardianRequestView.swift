@@ -1,18 +1,17 @@
+import Combine
 import SwiftUI
 
 struct GuardianRequestView: View {
     
     @EnvironmentObject var guardianVM: GuardianViewModel
-    @EnvironmentObject var session: UserSessionManager
-    
+
     var body: some View {
-        NavigationStack {
-            List(guardianVM.incomingRequests) { walkSession in
+        List(guardianVM.incomingRequests) { walkSession in
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
                         Image(systemName: "figure.walk.circle.fill")
                             .font(.title)
-                            .foregroundColor(.indigo)
+                            .foregroundStyle(SafeWalkTheme.primaryBlue)
                         
                         VStack(alignment: .leading) {
                             Text("Guardian Request")
@@ -52,7 +51,7 @@ struct GuardianRequestView: View {
                             Text("Accept")
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 10)
-                                .background(Color.indigo)
+                                .background(SafeWalkTheme.primaryBlue)
                                 .foregroundColor(.white)
                                 .cornerRadius(10)
                         }
@@ -60,16 +59,15 @@ struct GuardianRequestView: View {
                 }
                 .padding(.vertical, 8)
             }
-            .navigationTitle("Guardian Requests")
+            .navigationTitle("Guardian requests")
             .overlay {
                 if guardianVM.incomingRequests.isEmpty {
                     ContentUnavailableView(
-                        "No Requests",
+                        "No requests",
                         systemImage: "shield.slash",
-                        description: Text("You'll see requests here when someone adds you as a Guardian.")
+                        description: Text("You'll see requests here when someone adds you as a guardian.")
                     )
                 }
             }
-        }
     }
 }

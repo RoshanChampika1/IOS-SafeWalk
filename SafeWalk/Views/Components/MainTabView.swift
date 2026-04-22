@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 
 struct MainTabView: View {
@@ -17,18 +18,19 @@ struct MainTabView: View {
         TabView(selection: $selectedTab) {
             DashboardView()
                 .environmentObject(dashboardVM)
+                .environmentObject(contactsVM)
                 .tabItem {
-                    Label("Home", systemImage: "shield.fill")
+                    Label("Home", systemImage: "house.fill")
                 }
                 .tag(0)
-            
+
             SafeWalkMapView()
                 .environmentObject(mapVM)
                 .tabItem {
                     Label("Map", systemImage: "map.fill")
                 }
                 .tag(1)
-            
+
             ContactsView()
                 .environmentObject(contactsVM)
                 .environmentObject(guardianVM)
@@ -36,13 +38,17 @@ struct MainTabView: View {
                     Label("Contacts", systemImage: "person.2.fill")
                 }
                 .tag(2)
-            
+
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
                 .tag(3)
         }
-        .accentColor(.indigo)
+        .tint(SafeWalkTheme.primaryBlue)
+        .environmentObject(guardianVM)
+        .onAppear {
+            contactsVM.bind(session: session)
+        }
     }
 }

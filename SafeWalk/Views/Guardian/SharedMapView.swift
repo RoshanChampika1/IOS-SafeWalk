@@ -1,13 +1,13 @@
-import SwiftUI
+import Combine
 import MapKit
+import SwiftUI
 
 struct SharedMapView: View {
     
     @EnvironmentObject var guardianVM: GuardianViewModel
     
     var body: some View {
-        NavigationStack {
-            ZStack {
+        ZStack {
                 if let session = guardianVM.activeSession,
                    let lat = session.currentLat,
                    let lng = session.currentLng {
@@ -18,10 +18,10 @@ struct SharedMapView: View {
                         Annotation("Walker", coordinate: walkerCoord) {
                             ZStack {
                                 Circle()
-                                    .fill(Color.indigo.opacity(0.3))
+                                    .fill(SafeWalkTheme.primaryBlue.opacity(0.3))
                                     .frame(width: 44, height: 44)
                                 Image(systemName: "figure.walk")
-                                    .foregroundColor(.indigo)
+                                    .foregroundStyle(SafeWalkTheme.primaryBlue)
                                     .font(.title3)
                             }
                         }
@@ -29,7 +29,7 @@ struct SharedMapView: View {
                         Marker("Destination",
                                systemImage: "mappin.circle.fill",
                                coordinate: session.destinationCoordinate)
-                        .tint(.red)
+                        .tint(SafeWalkTheme.emergencyRed)
                     }
                     .ignoresSafeArea()
                     
@@ -43,7 +43,7 @@ struct SharedMapView: View {
                                     .foregroundColor(.white)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
-                                    .background(Color.red)
+                                    .background(SafeWalkTheme.emergencyRed)
                                     .cornerRadius(6)
                                 
                                 Text("Destination: \(session.destination)")
@@ -66,8 +66,7 @@ struct SharedMapView: View {
                     )
                 }
             }
-            .navigationTitle("Shared Map")
+            .navigationTitle("Shared map")
             .navigationBarTitleDisplayMode(.inline)
-        }
     }
 }

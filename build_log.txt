@@ -1,0 +1,50 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project SafeWalk.xcodeproj -scheme SafeWalk -destination "platform=iOS Simulator,name=iPhone 15"
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  leveldb: https://github.com/firebase/leveldb.git @ 1.22.5
+  gRPC: https://github.com/google/grpc-binary.git @ 1.69.1
+  Firebase: https://github.com/firebase/firebase-ios-sdk @ 11.15.0
+  GoogleUtilities: https://github.com/google/GoogleUtilities.git @ 8.1.0
+  GTMSessionFetcher: https://github.com/google/gtm-session-fetcher.git @ 4.5.0
+  GoogleAppMeasurement: https://github.com/google/GoogleAppMeasurement.git @ 11.15.0
+  nanopb: https://github.com/firebase/nanopb.git @ 2.30910.0
+  abseil: https://github.com/google/abseil-cpp-binary.git @ 1.2024072200.0
+  InteropForGoogle: https://github.com/google/interop-ios-for-google-sdks.git @ 101.0.0
+  GoogleAdsOnDeviceConversion: https://github.com/googleads/google-ads-on-device-conversion-ios-sdk @ 2.3.0
+  SwiftProtobuf: https://github.com/apple/swift-protobuf.git @ 1.36.1
+  AppCheck: https://github.com/google/app-check.git @ 11.2.0
+  GoogleDataTransport: https://github.com/google/GoogleDataTransport.git @ 10.1.0
+  Promises: https://github.com/google/promises.git @ 2.4.0
+
+2026-04-22 10:19:32.784 xcodebuild[22059:10653960] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+2026-04-22 10:20:32.888 xcodebuild[22059:10653960] Writing error result bundle to /var/folders/76/7pnxbt_s0bj7mvwdts2x88980000gx/T/ResultBundle_2026-22-04_10-20-0032.xcresult
+xcodebuild: error: Unable to find a device matching the provided destination specifier:
+		{ platform:iOS Simulator, OS:latest, name:iPhone 15 }
+
+	The requested device could not be found because no available devices matched the request.
+
+	Available destinations for the "SafeWalk" scheme:
+		{ platform:macOS, arch:arm64, id:00008122-000019540A00001C, name:My Mac }
+		{ platform:macOS, arch:x86_64, id:00008122-000019540A00001C, name:My Mac }
+		{ platform:iOS, arch:arm64, id:00008120-001844E4019BC01E, name:Roshan’s iphone  }
+		{ platform:iOS, id:dvtdevice-DVTiPhonePlaceholder-iphoneos:placeholder, name:Any iOS Device }
+		{ platform:iOS Simulator, id:dvtdevice-DVTiOSDeviceSimulatorPlaceholder-iphonesimulator:placeholder, name:Any iOS Simulator Device }
+		{ platform:macOS, name:Any Mac }
+		{ platform:iOS Simulator, arch:arm64, id:FC657043-C16C-4CF7-9DD3-02AFD0FF1288, OS:26.2, name:iPad (A16) }
+		{ platform:iOS Simulator, arch:arm64, id:ECDB7F6D-4F03-4842-B2CB-7F7DFF98FF9C, OS:26.2, name:iPad Air 11-inch (M3) }
+		{ platform:iOS Simulator, arch:arm64, id:B36977DD-A4AF-4C70-80BF-3AB45B1CBA03, OS:26.2, name:iPad Air 13-inch (M3) }
+		{ platform:iOS Simulator, arch:arm64, id:3A10FA5D-E15A-460C-82C2-6FB4F2784B28, OS:26.2, name:iPad Pro 11-inch (M5) }
+		{ platform:iOS Simulator, arch:arm64, id:55120793-C9F8-43A5-A502-081FE5D26A11, OS:26.2, name:iPad Pro 13-inch (M5) }
+		{ platform:iOS Simulator, arch:arm64, id:DC01929B-782D-4189-B9C8-4002488B303E, OS:26.2, name:iPad mini (A17 Pro) }
+		{ platform:iOS Simulator, arch:arm64, id:3D44548F-7390-4CC1-8F20-E3F29ADA82EC, OS:26.2, name:iPhone 16e }
+		{ platform:iOS Simulator, arch:arm64, id:2BD37AC1-A820-4A58-85DF-B17BC6AEC2C3, OS:26.2, name:iPhone 17 }
+		{ platform:iOS Simulator, arch:arm64, id:5664EFC0-903F-48BC-94AF-BE4F89326D59, OS:26.2, name:iPhone 17 Pro }
+		{ platform:iOS Simulator, arch:arm64, id:4DC379FC-6036-4AF2-9958-4CE78DEF8B54, OS:26.2, name:iPhone 17 Pro Max }
+		{ platform:iOS Simulator, arch:arm64, id:BE2DB4CD-2112-45F6-84F8-333D34B3B21E, OS:26.2, name:iPhone Air }
+
+	Ineligible destinations for the "SafeWalk" scheme:
+		{ platform:visionOS, id:dvtdevice-DVTiOSDevicePlaceholder-xros:placeholder, name:Any visionOS Device, error:visionOS 26.2 is not installed. Please download and install the platform from Xcode > Settings > Components. }
