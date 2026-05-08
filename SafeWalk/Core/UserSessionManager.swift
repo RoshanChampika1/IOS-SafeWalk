@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 import LocalAuthentication
-// import FirebaseAuth
+import FirebaseAuth
 
 class UserSessionManager: ObservableObject {
 
@@ -12,6 +12,11 @@ class UserSessionManager: ObservableObject {
     @Published var userName: String = ""
     @Published var userEmail: String = ""
     @Published var profileImageData: Data?
+    @Published var userPhone: String = ""
+    @Published var phoneVerified: Bool = false
+    /// Becomes true after login if the user has not yet verified a phone number
+    /// and has not explicitly skipped. Drives the PhoneVerificationView gate.
+    @Published var needsPhoneVerification: Bool = false
 
     @Published var sosTriggered: Bool = false
     @Published var guardianAccepted: Bool = false
@@ -21,17 +26,18 @@ class UserSessionManager: ObservableObject {
         self.userName = UserDefaults.standard.string(forKey: "userName") ?? ""
         self.userEmail = UserDefaults.standard.string(forKey: "userEmail") ?? ""
         self.profileImageData = UserDefaults.standard.data(forKey: "profileImageData")
+        self.userPhone = UserDefaults.standard.string(forKey: "userPhone") ?? ""
+        self.phoneVerified = UserDefaults.standard.bool(forKey: "phoneVerified")
         self.currentUserID = UserDefaults.standard.string(forKey: "userID") ?? {
             let id = UUID().uuidString
             UserDefaults.standard.set(id, forKey: "userID")
             return id
         }()
-        
+
         setupFirebaseAuthListener()
     }
     
     private func setupFirebaseAuthListener() {
-        /* Uncomment when FirebaseAuth is added
         Auth.auth().addStateDidChangeListener { [weak self] _, user in
             DispatchQueue.main.async {
                 guard let self = self else { return }
@@ -41,10 +47,15 @@ class UserSessionManager: ObservableObject {
                     self.userName = user.displayName ?? self.userName
                     self.hasCompletedOnboarding = true
                     FirebaseManager.shared.syncUserProfile(userID: user.uid, name: self.userName, email: self.userEmail)
+
+                    // Show phone verification gate if phone not yet verified
+                    // and user has not already skipped this session
+                    if !self.phoneVerified {
+                        self.needsPhoneVerification = true
+                    }
                 }
             }
         }
-        */
     }
 
     func completeOnboarding(name: String) {
@@ -52,6 +63,25 @@ class UserSessionManager: ObservableObject {
         self.hasCompletedOnboarding = true
         UserDefaults.standard.set(true, forKey: "onboardingDone")
         UserDefaults.standard.set(name, forKey: "userName")
+    }
+
+    // MARK: - Phone verification
+
+    /// Called by PhoneVerificationView after OTP is confirmed.
+    /// Saves the number both locally (UserDefaults) and to Firestore.
+    func saveVerifiedPhone(_ phone: String) {
+        userPhone = phone
+        phoneVerified = true
+        needsPhoneVerification = false
+        UserDefaults.standard.set(phone, forKey: "userPhone")
+        UserDefaults.standard.set(true, forKey: "phoneVerified")
+        FirebaseManager.shared.saveVerifiedPhone(userID: currentUserID, phone: phone)
+    }
+
+    /// Called when user taps "Skip for now" — hides the gate for this session.
+    /// phoneVerified stays false so the gate re-appears on next login.
+    func skipPhoneVerification() {
+        needsPhoneVerification = false
     }
 
     func updateProfile(name: String, email: String, imageData: Data?) {

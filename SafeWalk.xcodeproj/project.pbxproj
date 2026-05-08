@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15FB44CD1BADF5CF6AD89232 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 804B1E661E491EA970DC68D1 /* GoogleSignIn */; };
+		76B1202C1F6B23FF8A82D2EE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = AD70B089840D7F6D6579D04E /* FirebaseAuth */; };
 		7D4958A32F80F600007D39DA /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7D4958A12F80F600007D39DA /* FirebaseCore */; };
 		7D4958A42F80F600007D39DA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7D4958A22F80F600007D39DA /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
@@ -15,9 +17,22 @@
 		7D49583F2F80F5EE007D39DA /* SafeWalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeWalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		62B4A1AF2F98E381000E8D88 /* Exceptions for "SafeWalk" folder in "SafeWalk" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7D49583E2F80F5EE007D39DA /* SafeWalk */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7D4958412F80F5EE007D39DA /* SafeWalk */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				62B4A1AF2F98E381000E8D88 /* Exceptions for "SafeWalk" folder in "SafeWalk" target */,
+			);
 			path = SafeWalk;
 			sourceTree = "<group>";
 		};
@@ -30,17 +45,27 @@
 			files = (
 				7D4958A32F80F600007D39DA /* FirebaseCore in Frameworks */,
 				7D4958A42F80F600007D39DA /* FirebaseFirestore in Frameworks */,
+				76B1202C1F6B23FF8A82D2EE /* FirebaseAuth in Frameworks */,
+				15FB44CD1BADF5CF6AD89232 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E2F0DB54FC533DCB87C0F7C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7D4958362F80F5EE007D39DA = {
 			isa = PBXGroup;
 			children = (
 				7D4958412F80F5EE007D39DA /* SafeWalk */,
 				7D4958402F80F5EE007D39DA /* Products */,
+				2E2F0DB54FC533DCB87C0F7C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,6 +99,8 @@
 			packageProductDependencies = (
 				7D4958A12F80F600007D39DA /* FirebaseCore */,
 				7D4958A22F80F600007D39DA /* FirebaseFirestore */,
+				AD70B089840D7F6D6579D04E /* FirebaseAuth */,
+				804B1E661E491EA970DC68D1 /* GoogleSignIn */,
 			);
 			productName = SafeWalk;
 			productReference = 7D49583F2F80F5EE007D39DA /* SafeWalk.app */;
@@ -105,6 +132,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				7D4958A02F80F600007D39DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				AE7E3C521ED77F4A1819BA47 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7D4958402F80F5EE007D39DA /* Products */;
@@ -259,42 +287,43 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R8U3M5N44W;
-				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SafeWalk/Info.plist;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "SafeWalk uses Face ID for quick and secure safety check-ins.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "SafeWalk needs your location for maps, live sharing during a walk, and to include your position if your timer ends.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SafeWalk uses your location on the map and when sharing a walk with a guardian.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Choose a photo for your SafeWalk profile.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "-0.SafeWalk";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cobsccomp24.safewalk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				SDKROOT = auto;
+				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 26.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -306,42 +335,43 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R8U3M5N44W;
-				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SafeWalk/Info.plist;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "SafeWalk uses Face ID for quick and secure safety check-ins.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "SafeWalk needs your location for maps, live sharing during a walk, and to include your position if your timer ends.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SafeWalk uses your location on the map and when sharing a walk with a guardian.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Choose a photo for your SafeWalk profile.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 26.1;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "-0.SafeWalk";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cobsccomp24.safewalk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REGISTER_APP_GROUPS = YES;
-				SDKROOT = auto;
+				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 26.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -377,6 +407,14 @@
 				minimumVersion = 11.0.0;
 			};
 		};
+		AE7E3C521ED77F4A1819BA47 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -389,6 +427,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7D4958A02F80F600007D39DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		804B1E661E491EA970DC68D1 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AE7E3C521ED77F4A1819BA47 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		AD70B089840D7F6D6579D04E /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7D4958A02F80F600007D39DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

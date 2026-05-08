@@ -22,6 +22,35 @@ class FirebaseManager: ObservableObject {
         ], merge: true)
     }
 
+    // MARK: - Phone Verification
+    /// Saves the verified E.164 phone number on the user document and writes
+    /// a reverse-lookup entry so other users can resolve phone → Firebase UID.
+    func saveVerifiedPhone(userID: String, phone: String) {
+        guard let db = firestore else { return }
+        // 1. Store on the user's own document
+        db.collection("users").document(userID).setData([
+            "phone": phone,
+            "phoneVerified": true
+        ], merge: true)
+        // 2. Write reverse-lookup index  phoneIndex/{e164} -> { uid }
+        let key = phone.replacingOccurrences(of: "+", with: "")
+        db.collection("phoneIndex").document(key).setData(["uid": userID], merge: true)
+    }
+
+    /// Looks up the Firebase UID for a given E.164 phone number.
+    /// Calls `completion` with the UID string, or `nil` if not found.
+    func lookupUID(byPhone phone: String, completion: @escaping (String?) -> Void) {
+        guard let db = firestore else {
+            completion(nil)
+            return
+        }
+        let key = phone.replacingOccurrences(of: "+", with: "")
+        db.collection("phoneIndex").document(key).getDocument { snapshot, _ in
+            let uid = snapshot?.data()?["uid"] as? String
+            completion(uid)
+        }
+    }
+
     // MARK: - Walk Session
     func createWalkSession(_ session: WalkSession, completion: @escaping (Error?) -> Void) {
         guard let db = firestore else {
