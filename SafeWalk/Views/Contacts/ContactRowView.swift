@@ -96,7 +96,7 @@ struct ContactRowView: View {
                         if let walk = guardianVM.activeSession {
                             guardianVM.sendGuardianRequest(
                                 sessionID: walk.id,
-                                guardianID: contact.id.uuidString
+                                guardianPhone: contact.phone
                             )
                         }
                     } label: {

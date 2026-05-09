@@ -140,6 +140,8 @@ struct SafeWalkMapView: View {
                 if let c = locationManager.userLocation {
                     mapVM.centerCamera(on: c)
                 }
+                // Start listening after Firebase is confirmed configured
+                routeService.listenToCommunityRoutes()
             }
             .sheet(isPresented: $showSearch) {
                 DestinationSearchView()

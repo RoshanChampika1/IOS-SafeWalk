@@ -87,6 +87,16 @@ struct ContactsView: View {
                 AddContactView()
                     .environmentObject(contactsVM)
             }
+            .alert("Guardian request", isPresented: Binding(
+                get: { guardianVM.guardianError != nil },
+                set: { if !$0 { guardianVM.guardianError = nil } }
+            )) {
+                Button("OK", role: .cancel) {
+                    guardianVM.guardianError = nil
+                }
+            } message: {
+                Text(guardianVM.guardianError ?? "")
+            }
         }
     }
 }

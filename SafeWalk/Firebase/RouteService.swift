@@ -15,7 +15,9 @@ class RouteService: ObservableObject {
     private var listener: ListenerRegistration?
     
     init() {
-        listenToCommunityRoutes()
+        // Do NOT call listenToCommunityRoutes() here.
+        // Firebase hasn't been configured yet at this point.
+        // The Map view calls it via .onAppear instead.
     }
     
     func saveRoute(_ route: SavedRoute) {

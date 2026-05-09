@@ -1,4 +1,5 @@
 import Combine
+import CoreLocation
 import SwiftUI
 import UIKit
 
@@ -9,6 +10,7 @@ struct DashboardView: View {
     @EnvironmentObject var notificationManager: NotificationManager
     @EnvironmentObject var dashboardVM: DashboardViewModel
     @EnvironmentObject var contactsVM: ContactsViewModel
+    @EnvironmentObject var guardianVM: GuardianViewModel
 
     @Environment(\.openURL) private var openURL
 
@@ -19,7 +21,6 @@ struct DashboardView: View {
     @State private var fakeCallTask: Task<Void, Never>?
     @State private var fakeCallPendingLabel: Bool = false
 
-    @AppStorage("fakeCallEnabledSetting") private var fakeCallEnabled: Bool = true
     @AppStorage("sirenEnabledSetting") private var sirenEnabled: Bool = true
 
     private var fakeCaller: (name: String, image: Data?) {
@@ -261,6 +262,17 @@ struct DashboardView: View {
                         notifications: notificationManager,
                         contacts: contactsVM.contacts
                     )
+                    let currentCoordinate = locationManager.userLocation
+                    let walkSession = WalkSession(
+                        userID: session.currentUserID,
+                        destination: "Safe walk route",
+                        destinationLat: currentCoordinate?.latitude ?? 0,
+                        destinationLng: currentCoordinate?.longitude ?? 0,
+                        startTime: Date(),
+                        eta: Date().addingTimeInterval(TimeInterval(dashboardVM.timerDuration)),
+                        status: .active
+                    )
+                    guardianVM.startWalkSession(session: walkSession)
                 } label: {
                     Text("Start")
                         .font(.headline)
@@ -299,30 +311,26 @@ struct DashboardView: View {
 
     @ViewBuilder
     private var quickActions: some View {
-        if fakeCallEnabled || sirenEnabled {
-            HStack(spacing: 12) {
-                if fakeCallEnabled {
-                    quickActionButton(
-                        title: fakeCallPendingLabel ? "Cancel fake call" : "Fake call",
-                        systemImage: "phone.arrow.down.left",
-                        tint: SafeWalkTheme.primaryBlue
-                    ) {
-                        if fakeCallPendingLabel || showIncomingBanner || showFullFakeCall {
-                            cancelFakeCallSchedule()
-                        } else {
-                            scheduleFakeCall()
-                        }
-                    }
+        HStack(spacing: 12) {
+            quickActionButton(
+                title: fakeCallPendingLabel ? "Cancel fake call" : "Fake call",
+                systemImage: "phone.arrow.down.left",
+                tint: SafeWalkTheme.primaryBlue
+            ) {
+                if fakeCallPendingLabel || showIncomingBanner || showFullFakeCall {
+                    cancelFakeCallSchedule()
+                } else {
+                    scheduleFakeCall()
                 }
-                
-                if sirenEnabled {
-                    quickActionButton(
-                        title: "Siren",
-                        systemImage: dashboardVM.isSirenPlaying ? "speaker.slash.fill" : "speaker.wave.3.fill",
-                        tint: dashboardVM.isSirenPlaying ? SafeWalkTheme.warningOrange : SafeWalkTheme.primaryBlue
-                    ) {
-                        dashboardVM.toggleSiren()
-                    }
+            }
+
+            if sirenEnabled {
+                quickActionButton(
+                    title: "Siren",
+                    systemImage: dashboardVM.isSirenPlaying ? "speaker.slash.fill" : "speaker.wave.3.fill",
+                    tint: dashboardVM.isSirenPlaying ? SafeWalkTheme.warningOrange : SafeWalkTheme.primaryBlue
+                ) {
+                    dashboardVM.toggleSiren()
                 }
             }
         }

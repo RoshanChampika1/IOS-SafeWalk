@@ -1,5 +1,6 @@
 import Combine
 import CoreLocation
+import FirebaseAuth
 import SwiftUI
 import UIKit
 
@@ -15,7 +16,6 @@ struct SettingsView: View {
     @AppStorage("guardianIDSetting") private var guardianID: String = ""
     @State private var showResetAlert: Bool = false
     @AppStorage("biometricEnabledSetting") private var biometricEnabled: Bool = true
-    @AppStorage("fakeCallEnabledSetting") private var fakeCallEnabled: Bool = true
     @AppStorage("sirenEnabledSetting") private var sirenEnabled: Bool = true
 
     let timerOptions = [("3 min", 180), ("5 min", 300), ("10 min", 600), ("15 min", 900), ("30 min", 1800)]
@@ -79,7 +79,6 @@ struct SettingsView: View {
 
                 Section {
                     Toggle("Biometric lock", isOn: $biometricEnabled)
-                    Toggle("Fake call shortcut", isOn: $fakeCallEnabled)
                     Toggle("Siren shortcut", isOn: $sirenEnabled)
                 } header: {
                     Text("Safety protocols")
@@ -119,20 +118,7 @@ struct SettingsView: View {
                     Text("Permissions")
                 }
 
-                Section {
-                    NavigationLink {
-                        GuardianRequestView()
-                    } label: {
-                        Label("Guardian requests", systemImage: "person.badge.shield.checkmark.fill")
-                    }
-                    NavigationLink {
-                        SharedMapView()
-                    } label: {
-                        Label("Shared live map", systemImage: "map.fill")
-                    }
-                } header: {
-                    Text("Guardian mode")
-                }
+
 
                 Section {
                     HStack {
@@ -146,8 +132,17 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    Button("Switch User / Log Out", role: .destructive) {
+                    Button(role: .destructive) {
                         showResetAlert = true
+                    } label: {
+                        Text("Log Out")
+                    }
+
+                    Button(role: .destructive) {
+                        deleteAccount()
+                    } label: {
+                        Text("Delete Account Permanently")
+                            .foregroundStyle(SafeWalkTheme.emergencyRed)
                     }
                 }
             }
@@ -155,13 +150,23 @@ struct SettingsView: View {
             .background(SafeWalkTheme.background)
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.large)
-            .alert("Switch User?", isPresented: $showResetAlert) {
-                Button("Switch", role: .destructive) {
+            .alert("Log Out?", isPresented: $showResetAlert) {
+                Button("Log Out", role: .destructive) {
                     session.changeUser()
                 }
                 Button("Cancel", role: .cancel) { }
             } message: {
-                Text("This will securely log you out and return you to the welcome screen.")
+                Text("This will securely log you out and return you to the login screen.")
+            }
+        }
+    }
+
+    private func deleteAccount() {
+        // Delete from Firebase Backend completely
+        let user = FirebaseAuth.Auth.auth().currentUser
+        user?.delete { error in
+            if error == nil {
+                session.changeUser() // logs out and clears local data
             }
         }
     }

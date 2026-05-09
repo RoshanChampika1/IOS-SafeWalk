@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23B7D57AB57ECD5A5FFB33F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6D3F8634C66761128A7906F9 /* FirebaseAuth */; };
+		4E517BDC1D4579D377AF786F /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C348B8F26DA499FF7D18ED99 /* GoogleSignIn */; };
 		7D4958A32F80F600007D39DA /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7D4958A12F80F600007D39DA /* FirebaseCore */; };
 		7D4958A42F80F600007D39DA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7D4958A22F80F600007D39DA /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
@@ -15,9 +17,22 @@
 		7D49583F2F80F5EE007D39DA /* SafeWalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeWalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7D4301C92FAF4119004DDEA5 /* Exceptions for "SafeWalk" folder in "SafeWalk" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7D49583E2F80F5EE007D39DA /* SafeWalk */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7D4958412F80F5EE007D39DA /* SafeWalk */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7D4301C92FAF4119004DDEA5 /* Exceptions for "SafeWalk" folder in "SafeWalk" target */,
+			);
 			path = SafeWalk;
 			sourceTree = "<group>";
 		};
@@ -30,6 +45,8 @@
 			files = (
 				7D4958A32F80F600007D39DA /* FirebaseCore in Frameworks */,
 				7D4958A42F80F600007D39DA /* FirebaseFirestore in Frameworks */,
+				23B7D57AB57ECD5A5FFB33F7 /* FirebaseAuth in Frameworks */,
+				4E517BDC1D4579D377AF786F /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +58,7 @@
 			children = (
 				7D4958412F80F5EE007D39DA /* SafeWalk */,
 				7D4958402F80F5EE007D39DA /* Products */,
+				A4066A7CBB03F6A1118513A1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -50,6 +68,13 @@
 				7D49583F2F80F5EE007D39DA /* SafeWalk.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A4066A7CBB03F6A1118513A1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -105,6 +130,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				7D4958A02F80F600007D39DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				AA7A702F2BD6C77D41680221 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7D4958402F80F5EE007D39DA /* Products */;
@@ -263,6 +289,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SafeWalk/Info.plist;
+				INFOPLIST_KEY_FirebaseAppDelegateProxyEnabled = YES;
+				INFOPLIST_KEY_CFBundleURLTypes = "( {\n    CFBundleTypeRole = Editor;\n    CFBundleURLSchemes =     (\n        \"com.googleusercontent.apps.306821039012-bbcu61k5bo251uomr31ogq9mnh9okqk6\",\n    );\n} )";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "SafeWalk uses Face ID for quick and secure safety check-ins.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "SafeWalk needs your location for maps, live sharing during a walk, and to include your position if your timer ends.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SafeWalk uses your location on the map and when sharing a walk with a guardian.";
@@ -282,7 +311,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "-0.SafeWalk";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cobsccomp24.safewalk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -310,6 +339,9 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SafeWalk/Info.plist;
+				INFOPLIST_KEY_FirebaseAppDelegateProxyEnabled = YES;
+				INFOPLIST_KEY_CFBundleURLTypes = "( {\n    CFBundleTypeRole = Editor;\n    CFBundleURLSchemes =     (\n        \"com.googleusercontent.apps.306821039012-bbcu61k5bo251uomr31ogq9mnh9okqk6\",\n    );\n} )";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "SafeWalk uses Face ID for quick and secure safety check-ins.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "SafeWalk needs your location for maps, live sharing during a walk, and to include your position if your timer ends.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SafeWalk uses your location on the map and when sharing a walk with a guardian.";
@@ -329,7 +361,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "-0.SafeWalk";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cobsccomp24.safewalk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
@@ -377,9 +409,22 @@
 				minimumVersion = 11.0.0;
 			};
 		};
+		AA7A702F2BD6C77D41680221 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6D3F8634C66761128A7906F9 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7D4958A02F80F600007D39DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
 		7D4958A12F80F600007D39DA /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7D4958A02F80F600007D39DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -389,6 +434,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7D4958A02F80F600007D39DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		C348B8F26DA499FF7D18ED99 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA7A702F2BD6C77D41680221 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
