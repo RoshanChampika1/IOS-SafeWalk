@@ -13,6 +13,11 @@ class UserSessionManager: ObservableObject {
     @Published var userPhoneNumber: String = ""   // ← the bridge for guardian lookup
     @Published var userEmail: String = ""
     @Published var profileImageData: Data?
+    @Published var userPhone: String = ""
+    @Published var phoneVerified: Bool = false
+    /// Becomes true after login if the user has not yet verified a phone number
+    /// and has not explicitly skipped. Drives the PhoneVerificationView gate.
+    @Published var needsPhoneVerification: Bool = false
 
     @Published var sosTriggered: Bool = false
     @Published var guardianAccepted: Bool = false
@@ -163,6 +168,25 @@ class UserSessionManager: ObservableObject {
                 email:  userEmail
             )
         }
+    }
+
+    // MARK: - Phone verification
+
+    /// Called by PhoneVerificationView after OTP is confirmed.
+    /// Saves the number both locally (UserDefaults) and to Firestore.
+    func saveVerifiedPhone(_ phone: String) {
+        userPhone = phone
+        phoneVerified = true
+        needsPhoneVerification = false
+        UserDefaults.standard.set(phone, forKey: "userPhone")
+        UserDefaults.standard.set(true, forKey: "phoneVerified")
+        FirebaseManager.shared.saveVerifiedPhone(userID: currentUserID, phone: phone)
+    }
+
+    /// Called when user taps "Skip for now" — hides the gate for this session.
+    /// phoneVerified stays false so the gate re-appears on next login.
+    func skipPhoneVerification() {
+        needsPhoneVerification = false
     }
 
     func updateProfile(name: String, email: String, imageData: Data?) {

@@ -2,7 +2,7 @@ import Combine
 import SwiftUI
 
 struct MainTabView: View {
-    
+
     @EnvironmentObject var session: UserSessionManager
     @EnvironmentObject var locationManager: LocationManager
     @EnvironmentObject var notificationManager: NotificationManager
@@ -111,6 +111,17 @@ struct MainTabView: View {
         .tint(SafeWalkTheme.primaryBlue)
         .onAppear {
             contactsVM.bind(session: session)
+            // Start guardian request listener using the real Firebase UID
+            guardianVM.startListening(forUserID: session.currentUserID)
+        }
+        .onDisappear {
+            guardianVM.stopListening()
+        }
+        // Re-attach listener if the user UID changes (e.g. re-login)
+        .onChange(of: session.currentUserID) { _, newUID in
+            guard !newUID.isEmpty else { return }
+            guardianVM.startListening(forUserID: newUID)
         }
     }
 }
+

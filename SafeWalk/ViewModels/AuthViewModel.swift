@@ -271,6 +271,9 @@ class AuthViewModel: ObservableObject {
         }
 
         GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController) { [weak self] result, error in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+            }
             if let error = error {
                 DispatchQueue.main.async {
                     self?.isLoading = false
@@ -293,7 +296,6 @@ class AuthViewModel: ObservableObject {
             )
             Auth.auth().signIn(with: credential) { _, authError in
                 DispatchQueue.main.async {
-                    self?.isLoading = false
                     if let authError = authError {
                         self?.errorMessage = authError.localizedDescription
                         return
