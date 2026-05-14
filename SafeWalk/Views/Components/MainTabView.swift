@@ -112,7 +112,7 @@ struct MainTabView: View {
         .onAppear {
             contactsVM.bind(session: session)
             // Start guardian request listener using the real Firebase UID
-            guardianVM.startListening(forUserID: session.currentUserID)
+            guardianVM.listenForRequests(guardianID: session.currentUserID)
         }
         .onDisappear {
             guardianVM.stopListening()
@@ -120,7 +120,7 @@ struct MainTabView: View {
         // Re-attach listener if the user UID changes (e.g. re-login)
         .onChange(of: session.currentUserID) { _, newUID in
             guard !newUID.isEmpty else { return }
-            guardianVM.startListening(forUserID: newUID)
+            guardianVM.listenForRequests(guardianID: newUID)
         }
     }
 }

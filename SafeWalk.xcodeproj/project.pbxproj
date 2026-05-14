@@ -53,13 +53,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2E2F0DB54FC533DCB87C0F7C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		7D4958362F80F5EE007D39DA = {
 			isa = PBXGroup;
 			children = (
@@ -106,8 +99,6 @@
 			packageProductDependencies = (
 				7D4958A12F80F600007D39DA /* FirebaseCore */,
 				7D4958A22F80F600007D39DA /* FirebaseFirestore */,
-				AD70B089840D7F6D6579D04E /* FirebaseAuth */,
-				804B1E661E491EA970DC68D1 /* GoogleSignIn */,
 			);
 			productName = SafeWalk;
 			productReference = 7D49583F2F80F5EE007D39DA /* SafeWalk.app */;

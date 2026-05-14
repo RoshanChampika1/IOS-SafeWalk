@@ -11,6 +11,9 @@ struct ContactRowView: View {
     @Environment(\.openURL) private var openURL
 
     @State private var showNoSessionAlert = false
+    @State private var isSendingRequest = false
+    @State private var requestSent = false
+    @State private var requestError: String? = nil
 
     private var phoneDigits: String {
         contact.phone.filter(\.isNumber)
@@ -37,7 +40,6 @@ struct ContactRowView: View {
                             .frame(width: 48, height: 48)
                             .clipShape(Circle())
                     }
-                    .buttonStyle(.plain)
                 }
 
                 if let url = smsURL {
@@ -188,50 +190,33 @@ struct ContactRowView: View {
         isSendingRequest = true
         requestError = nil
 
-        // Normalise to E.164 — assume +94 if no country code present
-        let e164: String
-        if contact.phone.hasPrefix("+") {
-            e164 = "+" + phoneDigits
+        // Build a WalkSession for this walk if we don't already have one
+        let sessionID: String
+        if let active = guardianVM.activeSession {
+            sessionID = active.id
         } else {
-            // Strip leading 0 for Sri Lanka style numbers
-            let stripped = phoneDigits.hasPrefix("0") ? String(phoneDigits.dropFirst()) : phoneDigits
-            e164 = "+94\(stripped)"
+            // Create a lightweight session so the guardian can receive it
+            let newSession = WalkSession(
+                userID: session.currentUserID,
+                destination: "Live walk",
+                destinationLat: 0,
+                destinationLng: 0,
+                startTime: Date(),
+                eta: Date().addingTimeInterval(1800),
+                status: .active
+            )
+            guardianVM.startWalkSession(session: newSession)
+            sessionID = newSession.id
         }
 
-        // Look up the guardian's Firebase UID via their verified phone number
-        FirebaseManager.shared.lookupUID(byPhone: e164) { guardianUID in
-            DispatchQueue.main.async {
-                guard let guardianUID = guardianUID else {
-                    isSendingRequest = false
-                    requestError = "This contact hasn't verified their number in SafeWalk yet."
-                    return
-                }
+        guardianVM.sendGuardianRequest(
+            sessionID: sessionID,
+            guardianPhone: contact.phone,
+            guardianName: contact.name
+        )
 
-                // Build a WalkSession for this walk if we don't already have one
-                let sessionID: String
-                if let active = guardianVM.activeSession {
-                    sessionID = active.id
-                } else {
-                    // Create a lightweight session so the guardian can receive it
-                    let newSession = WalkSession(
-                        userID: session.currentUserID,
-                        destination: "Live walk",
-                        destinationLat: 0,
-                        destinationLng: 0,
-                        startTime: Date(),
-                        eta: Date().addingTimeInterval(1800),
-                        status: .active
-                    )
-                    guardianVM.startWalkSession(session: newSession)
-                    sessionID = newSession.id
-                }
-
-                guardianVM.sendGuardianRequest(sessionID: sessionID, guardianID: guardianUID)
-
-                isSendingRequest = false
-                requestSent = true
-            }
-        }
+        isSendingRequest = false
+        requestSent = true
     }
 }
 
