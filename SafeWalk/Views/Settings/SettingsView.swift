@@ -14,9 +14,11 @@ struct SettingsView: View {
     @AppStorage("enableVibrationSetting") private var enableVibration: Bool = true
     @AppStorage("autoSOSEnabledSetting") private var autoSOSEnabled: Bool = true
     @AppStorage("guardianIDSetting") private var guardianID: String = ""
-    @State private var showResetAlert: Bool = false
     @AppStorage("biometricEnabledSetting") private var biometricEnabled: Bool = true
     @AppStorage("sirenEnabledSetting") private var sirenEnabled: Bool = true
+    /// 0 = system, 1 = light, 2 = dark
+    @AppStorage("appearanceSetting") private var appearanceSetting: Int = 0
+    @State private var showResetAlert: Bool = false
 
     let timerOptions = [("3 min", 180), ("5 min", 300), ("10 min", 600), ("15 min", 900), ("30 min", 1800)]
 
@@ -82,6 +84,21 @@ struct SettingsView: View {
                     Toggle("Siren shortcut", isOn: $sirenEnabled)
                 } header: {
                     Text("Safety protocols")
+                }
+
+                Section {
+                    HStack(spacing: 0) {
+                        appearanceButton(label: "System", icon: "circle.lefthalf.filled", value: 0)
+                        Divider().frame(height: 36)
+                        appearanceButton(label: "Light", icon: "sun.max.fill", value: 1)
+                        Divider().frame(height: 36)
+                        appearanceButton(label: "Dark", icon: "moon.fill", value: 2)
+                    }
+                    .background(SafeWalkTheme.cardElevated)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                } header: {
+                    Text("Appearance")
                 }
 
                 Section {
@@ -184,6 +201,33 @@ struct SettingsView: View {
         switch locationManager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse: return SafeWalkTheme.callGreen
         default: return SafeWalkTheme.warningOrange
+        }
+    }
+
+    private func appearanceButton(label: String, icon: String, value: Int) -> some View {
+        Button {
+            appearanceSetting = value
+        } label: {
+            VStack(spacing: 6) {
+                Image(systemName: icon)
+                    .font(.title3)
+                    .foregroundStyle(appearanceSetting == value ? SafeWalkTheme.primaryBlue : SafeWalkTheme.textSecondary)
+                Text(label)
+                    .font(.caption.weight(appearanceSetting == value ? .semibold : .regular))
+                    .foregroundStyle(appearanceSetting == value ? SafeWalkTheme.primaryBlue : SafeWalkTheme.textSecondary)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .background(appearanceSetting == value ? SafeWalkTheme.primaryBlue.opacity(0.12) : Color.clear)
+        }
+        .buttonStyle(.plain)
+    }
+
+    var preferredColorScheme: ColorScheme? {
+        switch appearanceSetting {
+        case 1: return .light
+        case 2: return .dark
+        default: return nil   // follows system
         }
     }
 }

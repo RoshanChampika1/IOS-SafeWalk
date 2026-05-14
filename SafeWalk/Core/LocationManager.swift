@@ -14,6 +14,9 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         center: CLLocationCoordinate2D(latitude: 6.9271, longitude: 79.8612), // Colombo default
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
+
+    // Set this to the active walk session ID so location updates push to Firestore
+    var activeSessionID: String?
     
     // Route Recording
     @Published var recordedCoordinates: [CLLocationCoordinate2D] = []
@@ -92,9 +95,18 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 center: location.coordinate,
                 span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
             )
-            
+
             if self.isRecordingRoute {
                 self.recordedCoordinates.append(location.coordinate)
+            }
+
+            // Push live location to Firestore if a walk session is active
+            if let sessionID = self.activeSessionID {
+                FirebaseManager.shared.updateUserLocation(
+                    sessionID: sessionID,
+                    lat: location.coordinate.latitude,
+                    lng: location.coordinate.longitude
+                )
             }
         }
     }

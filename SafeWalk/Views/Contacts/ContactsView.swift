@@ -97,6 +97,16 @@ struct ContactsView: View {
             } message: {
                 Text(guardianVM.guardianError ?? "")
             }
+            .alert("Request sent ✓", isPresented: Binding(
+                get: { guardianVM.requestSentToName != nil },
+                set: { if !$0 { guardianVM.requestSentToName = nil } }
+            )) {
+                Button("OK", role: .cancel) {
+                    guardianVM.requestSentToName = nil
+                }
+            } message: {
+                Text("Guardian request sent to \(guardianVM.requestSentToName ?? ""). They will see it in their Guardian tab.")
+            }
         }
     }
 }

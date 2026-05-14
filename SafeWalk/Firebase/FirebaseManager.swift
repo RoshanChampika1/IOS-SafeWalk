@@ -50,11 +50,17 @@ class FirebaseManager: ObservableObject {
             completion(nil)
             return
         }
+        print("[Guardian] 🔍 Looking up guardian phone: \(normalised)")
         db.collection("users")
             .whereField("phone", isEqualTo: normalised)
             .limit(to: 1)
             .getDocuments { snapshot, _ in
                 let uid = snapshot?.documents.first?.documentID
+                if let uid = uid {
+                    print("[Guardian] ✅ Resolved guardian UID: \(uid)")
+                } else {
+                    print("[Guardian] ❌ No user found for phone: \(normalised)")
+                }
                 completion(uid)
             }
     }
@@ -100,6 +106,7 @@ class FirebaseManager: ObservableObject {
 
     func updateUserLocation(sessionID: String, lat: Double, lng: Double) {
         guard let db = firestore else { return }
+        print("[Guardian] 📍 Location update — session: \(sessionID) → (\(String(format: "%.5f", lat)), \(String(format: "%.5f", lng)))")
         db.collection("walkSessions").document(sessionID).updateData([
             "currentLat": lat,
             "currentLng": lng
@@ -113,18 +120,34 @@ class FirebaseManager: ObservableObject {
             completion(nil)
             return
         }
+        print("[Guardian] 📤 Sending request — session: \(sessionID), guardian: \(guardianID)")
         db.collection("walkSessions").document(sessionID).updateData([
             "guardianID":       guardianID,
             "guardianAccepted": false
         ]) { error in
+            if let error = error {
+                print("[Guardian] ❌ sendGuardianRequest error: \(error.localizedDescription)")
+            } else {
+                print("[Guardian] ✅ Guardian request written to Firestore")
+            }
             completion(error)
         }
     }
 
     func respondToGuardianRequest(sessionID: String, accepted: Bool) {
         guard let db = firestore else { return }
+        print("[Guardian] \(accepted ? "✅ Accepted" : "❌ Declined") guardian request — session: \(sessionID)")
         db.collection("walkSessions").document(sessionID).updateData([
             "guardianAccepted": accepted
+        ])
+    }
+    
+    func declineGuardianRequest(sessionID: String) {
+        guard let db = firestore else { return }
+        print("[Guardian] ❌ Declining and removing guardian from session: \(sessionID)")
+        db.collection("walkSessions").document(sessionID).updateData([
+            "guardianID": FieldValue.delete(),
+            "guardianAccepted": FieldValue.delete()
         ])
     }
 
@@ -152,6 +175,7 @@ class FirebaseManager: ObservableObject {
             DispatchQueue.main.async { onChange([]) }
             return nil
         }
+        print("[Guardian] 👂 Listening for incoming requests for guardianID: \(guardianID)")
         return db.collection("walkSessions")
             .whereField("guardianID", isEqualTo: guardianID)
             .whereField("status", isEqualTo: "active")
@@ -159,6 +183,7 @@ class FirebaseManager: ObservableObject {
                 let sessions = snapshot?.documents.compactMap {
                     try? Firestore.Decoder().decode(WalkSession.self, from: $0.data())
                 } ?? []
+                print("[Guardian] 📥 Incoming requests count: \(sessions.count)")
                 onChange(sessions)
             }
     }

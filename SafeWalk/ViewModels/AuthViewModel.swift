@@ -137,11 +137,20 @@ class AuthViewModel: ObservableObject {
         let fallbackPassword = "SafeWalkDev!123"
 
         func finishSuccess() {
-            UserDefaults.standard.set(pendingPhoneE164, forKey: "userPhone")
+            // Save phone to the scoped key immediately so applyUser can pick it up
             if let user = Auth.auth().currentUser {
+                let scopedPhoneKey = "userPhone_\(user.uid)"
+                UserDefaults.standard.set(pendingPhoneE164, forKey: scopedPhoneKey)
+                UserDefaults.standard.set(pendingPhoneE164, forKey: "userPhone")
+                // Get the already-persisted name for this uid
+                let scopedNameKey = "userName_\(user.uid)"
+                let name = UserDefaults.standard.string(forKey: scopedNameKey)
+                    ?? UserDefaults.standard.string(forKey: "userName")
+                    ?? ""
+                print("[Auth] 📱 DEBUG fallback — syncing phone \(pendingPhoneE164) for uid \(user.uid)")
                 FirebaseManager.shared.syncUserProfile(
                     userID: user.uid,
-                    name: UserDefaults.standard.string(forKey: "userName") ?? "",
+                    name: name,
                     phone: pendingPhoneE164,
                     email: user.email ?? ""
                 )

@@ -92,11 +92,15 @@ struct LoginView: View {
                     }
                     .padding(.horizontal, 4)
 
-                    // MARK: Google Sign-In button
-                    GoogleSignInButton(
-                        action: { authVM.signInWithGoogle() },
-                        isLoading: authVM.isLoading
-                    )
+                    // MARK: Google Sign-In button (round icon only)
+                    HStack {
+                        Spacer()
+                        GoogleSignInButton(
+                            action: { authVM.signInWithGoogle() },
+                            isLoading: authVM.isLoading
+                        )
+                        Spacer()
+                    }
 
                     HStack(spacing: 6) {
                         Text("If you don't have an account,")
@@ -214,7 +218,7 @@ struct SignUpView: View {
     }
 }
 
-// MARK: - Proper Google Sign-In Button
+// MARK: - Google Sign-In Button (round, icon only)
 
 struct GoogleSignInButton: View {
     var action: () -> Void
@@ -223,33 +227,31 @@ struct GoogleSignInButton: View {
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 12) {
-                GoogleGLogo()
-                    .frame(width: 18, height: 18)
+            ZStack {
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: 56, height: 56)
+                    .shadow(
+                        color: .black.opacity(isPressed ? 0.06 : 0.15),
+                        radius: isPressed ? 2 : 6,
+                        y: isPressed ? 1 : 3
+                    )
+                    .overlay(
+                        Circle()
+                            .stroke(Color.black.opacity(0.10), lineWidth: 1)
+                    )
 
                 if isLoading {
                     ProgressView()
                         .tint(Color(red: 0.235, green: 0.251, blue: 0.263))
                 } else {
-                    Text("Sign in with Google")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(Color(red: 0.235, green: 0.251, blue: 0.263))
+                    Image("google_logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 26, height: 26)
                 }
             }
-            .frame(maxWidth: .infinity)
-            .frame(height: 52)
-            .background(Color.white)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.black.opacity(0.14), lineWidth: 1)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(
-                color: .black.opacity(isPressed ? 0.03 : 0.08),
-                radius: isPressed ? 1 : 3,
-                y: isPressed ? 1 : 2
-            )
-            .scaleEffect(isPressed ? 0.94 : 1.0)
+            .scaleEffect(isPressed ? 0.90 : 1.0)
             .animation(.easeInOut(duration: 0.12), value: isPressed)
         }
         .buttonStyle(.plain)
@@ -262,48 +264,3 @@ struct GoogleSignInButton: View {
     }
 }
 
-// MARK: - Google "G" Logo (brand-accurate, pure SwiftUI)
-
-struct GoogleGLogo: View {
-    var body: some View {
-        GeometryReader { geo in
-            let s = min(geo.size.width, geo.size.height)
-            let c = CGPoint(x: s / 2, y: s / 2)
-            let r = s / 2
-            ZStack {
-                // Blue — right segment
-                Path { p in
-                    p.addArc(center: c, radius: r, startAngle: .degrees(-30), endAngle: .degrees(90),  clockwise: false)
-                    p.addLine(to: c); p.closeSubpath()
-                }.fill(Color(red: 0.2588, green: 0.5216, blue: 0.9569))
-
-                // Red — top-left segment
-                Path { p in
-                    p.addArc(center: c, radius: r, startAngle: .degrees(90),  endAngle: .degrees(210), clockwise: false)
-                    p.addLine(to: c); p.closeSubpath()
-                }.fill(Color(red: 0.9176, green: 0.2627, blue: 0.2078))
-
-                // Yellow — bottom segment
-                Path { p in
-                    p.addArc(center: c, radius: r, startAngle: .degrees(210), endAngle: .degrees(330), clockwise: false)
-                    p.addLine(to: c); p.closeSubpath()
-                }.fill(Color(red: 0.9843, green: 0.7373, blue: 0.0196))
-
-                // Green slice
-                Path { p in
-                    p.addArc(center: c, radius: r, startAngle: .degrees(330), endAngle: .degrees(390), clockwise: false)
-                    p.addLine(to: c); p.closeSubpath()
-                }.fill(Color(red: 0.2039, green: 0.6588, blue: 0.3255))
-
-                // White donut cutout
-                Circle().fill(Color.white).frame(width: s * 0.60, height: s * 0.60)
-
-                // Blue crossbar
-                Rectangle()
-                    .fill(Color(red: 0.2588, green: 0.5216, blue: 0.9569))
-                    .frame(width: s * 0.47, height: s * 0.18)
-                    .offset(x: s * 0.115)
-            }
-        }
-    }
-}

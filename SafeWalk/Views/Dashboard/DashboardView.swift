@@ -141,6 +141,8 @@ struct DashboardView: View {
                 }
                 Button("SOS", role: .destructive) {
                     dashboardVM.triggerSOS(session: session, notifications: notificationManager)
+                    guardianVM.stopWalkSession(status: .sos)
+                    locationManager.activeSessionID = nil
                 }
             } message: {
                 Text("Your safety timer has run out. Tap I'm Safe after verifying, or SOS if you need help.")
@@ -149,6 +151,9 @@ struct DashboardView: View {
                 if !walking {
                     dashboardVM.stopSiren()
                     cancelFakeCallSchedule()
+                    // Walk ended safely — update Firestore so guardian's request list clears
+                    guardianVM.stopWalkSession(status: .safe)
+                    locationManager.activeSessionID = nil
                 }
             }
             .onDisappear {
@@ -212,7 +217,6 @@ struct DashboardView: View {
                 .scaledToFill()
                 .frame(width: 36, height: 36)
                 .clipShape(Circle())
-                .overlay(Circle().stroke(SafeWalkTheme.primaryBlue.opacity(0.25), lineWidth: 1))
         } else {
             ZStack {
                 Circle()
@@ -273,6 +277,8 @@ struct DashboardView: View {
                         status: .active
                     )
                     guardianVM.startWalkSession(session: walkSession)
+                    // Wire the session ID so GPS ticks push to Firestore live
+                    locationManager.activeSessionID = walkSession.id
                 } label: {
                     Text("Start")
                         .font(.headline)
@@ -421,6 +427,8 @@ struct DashboardView: View {
 
                     SOSButtonView {
                         dashboardVM.triggerSOS(session: session, notifications: notificationManager)
+                        guardianVM.stopWalkSession(status: .sos)
+                        locationManager.activeSessionID = nil
                     }
                 }
             }

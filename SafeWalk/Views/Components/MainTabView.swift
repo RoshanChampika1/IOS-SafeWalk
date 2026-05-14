@@ -42,18 +42,55 @@ struct MainTabView: View {
                 }
                 .tag(2)
 
-            // Guardian tab — shows incoming requests and the shared live map
+            // Guardian tab
             NavigationStack {
                 List {
-                    Section("Incoming requests") {
-                        GuardianRequestView()
+                    // ── Incoming requests ──────────────────────────────
+                    Section {
+                        if guardianVM.incomingRequests.isEmpty {
+                            HStack {
+                                Spacer()
+                                VStack(spacing: 8) {
+                                    Image(systemName: "shield.slash")
+                                        .font(.largeTitle)
+                                        .foregroundStyle(SafeWalkTheme.textSecondary)
+                                    Text("No incoming requests")
+                                        .font(.subheadline)
+                                        .foregroundStyle(SafeWalkTheme.textSecondary)
+                                    Text("You'll see requests here when a walker adds you as their guardian.")
+                                        .font(.caption)
+                                        .foregroundStyle(SafeWalkTheme.textSecondary)
+                                        .multilineTextAlignment(.center)
+                                }
+                                Spacer()
+                            }
+                            .padding(.vertical, 20)
+                            .listRowBackground(Color.clear)
+                        } else {
+                            GuardianRequestView()
+                                .environmentObject(guardianVM)
+                        }
+                    } header: {
+                        Text("Incoming requests")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(SafeWalkTheme.textSecondary)
                     }
-                    Section("Live map") {
-                        NavigationLink("Open shared map") {
-                            SharedMapView()
+
+                    // ── Live map (visible only after accepting) ─────────
+                    if guardianVM.activeSession != nil {
+                        Section {
+                            NavigationLink("Open shared map") {
+                                SharedMapView()
+                                    .environmentObject(guardianVM)
+                            }
+                        } header: {
+                            Text("Live map")
+                                .font(.caption.weight(.semibold))
+                                .foregroundStyle(SafeWalkTheme.textSecondary)
                         }
                     }
                 }
+                .listStyle(.insetGrouped)
                 .navigationTitle("Guardian")
             }
             .tabItem {

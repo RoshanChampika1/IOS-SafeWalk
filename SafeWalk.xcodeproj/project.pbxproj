@@ -290,8 +290,8 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SafeWalk/Info.plist;
-				INFOPLIST_KEY_FirebaseAppDelegateProxyEnabled = YES;
 				INFOPLIST_KEY_CFBundleURLTypes = "( {\n    CFBundleTypeRole = Editor;\n    CFBundleURLSchemes =     (\n        \"com.googleusercontent.apps.306821039012-bbcu61k5bo251uomr31ogq9mnh9okqk6\",\n    );\n} )";
+				INFOPLIST_KEY_FirebaseAppDelegateProxyEnabled = YES;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "SafeWalk uses Face ID for quick and secure safety check-ins.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "SafeWalk needs your location for maps, live sharing during a walk, and to include your position if your timer ends.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SafeWalk uses your location on the map and when sharing a walk with a guardian.";
@@ -340,8 +340,8 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SafeWalk/Info.plist;
-				INFOPLIST_KEY_FirebaseAppDelegateProxyEnabled = YES;
 				INFOPLIST_KEY_CFBundleURLTypes = "( {\n    CFBundleTypeRole = Editor;\n    CFBundleURLSchemes =     (\n        \"com.googleusercontent.apps.306821039012-bbcu61k5bo251uomr31ogq9mnh9okqk6\",\n    );\n} )";
+				INFOPLIST_KEY_FirebaseAppDelegateProxyEnabled = YES;
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "SafeWalk uses Face ID for quick and secure safety check-ins.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "SafeWalk needs your location for maps, live sharing during a walk, and to include your position if your timer ends.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SafeWalk uses your location on the map and when sharing a walk with a guardian.";

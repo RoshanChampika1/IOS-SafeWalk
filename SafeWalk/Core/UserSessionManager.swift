@@ -72,28 +72,50 @@ class UserSessionManager: ObservableObject {
 
         let authName = (user.displayName ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         let resolvedName = !authName.isEmpty ? authName : persistedName
-        let resolvedPhone = user.phoneNumber ?? persistedPhone
+        // user.phoneNumber is nil for email/Google fallback accounts.
+        // Prefer the Firebase auth phone; otherwise keep what we persisted (e.g. set by debug login).
+        let authPhone = (user.phoneNumber ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        let resolvedPhone = !authPhone.isEmpty ? authPhone : persistedPhone
         let resolvedEmail = user.email ?? userEmail
 
         userName = resolvedName
         userPhoneNumber = resolvedPhone
         userEmail = resolvedEmail
 
+        if let photoURL = user.photoURL, profileImageData == nil {
+            URLSession.shared.dataTask(with: photoURL) { [weak self] data, _, _ in
+                guard let data = data, let self = self else { return }
+                DispatchQueue.main.async {
+                    self.profileImageData = data
+                    UserDefaults.standard.set(data, forKey: "profileImageData")
+                }
+            }.resume()
+        }
+
         UserDefaults.standard.set(resolvedName, forKey: scopedNameKey)
-        UserDefaults.standard.set(resolvedPhone, forKey: scopedPhoneKey)
+        if !resolvedPhone.isEmpty {
+            UserDefaults.standard.set(resolvedPhone, forKey: scopedPhoneKey)
+            UserDefaults.standard.set(resolvedPhone, forKey: "userPhone")
+        }
         UserDefaults.standard.set(resolvedName, forKey: "userName")
-        UserDefaults.standard.set(resolvedPhone, forKey: "userPhone")
         UserDefaults.standard.set(resolvedEmail, forKey: "userEmail")
 
         hasCompletedOnboarding = !resolvedName.isEmpty && !resolvedPhone.isEmpty
         UserDefaults.standard.set(hasCompletedOnboarding, forKey: userScopedKey("onboardingDone", userID: user.uid))
 
-        FirebaseManager.shared.syncUserProfile(
-            userID: user.uid,
-            name: resolvedName,
-            phone: resolvedPhone,
-            email: resolvedEmail
-        )
+        // Only sync phone to Firestore when we actually have one
+        // (avoids wiping a valid phone with an empty string)
+        if !resolvedPhone.isEmpty {
+            print("[Auth] ✅ Syncing profile uid=\(user.uid) phone=\(resolvedPhone)")
+            FirebaseManager.shared.syncUserProfile(
+                userID: user.uid,
+                name: resolvedName,
+                phone: resolvedPhone,
+                email: resolvedEmail
+            )
+        } else {
+            print("[Auth] ⚠️ Phone not yet known for uid=\(user.uid), skipping Firestore sync")
+        }
 
         FirebaseManager.shared.fetchUserProfile(userID: user.uid) { [weak self] profile in
             DispatchQueue.main.async {
