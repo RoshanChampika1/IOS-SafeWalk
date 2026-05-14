@@ -42,53 +42,7 @@ struct ContactRowView: View {
                     }
                 }
 
-                if let url = smsURL {
-                    Button {
-                        openURL(url)
-                    } label: {
-                        Image(systemName: "message.fill")
-                            .font(.body)
-                            .foregroundStyle(SafeWalkTheme.primaryBlue)
-                            .frame(width: 40, height: 40)
-                            .background(SafeWalkTheme.primaryBlue.opacity(0.12))
-                            .clipShape(Circle())
-                    }
-                    .buttonStyle(.plain)
-                }
 
-                if contact.isGuardian, session.isWalking {
-                    Button {
-                        print("[Guardian] 🔘 Icon tapped — activeSessionID: \(guardianVM.activeSessionID ?? "NIL"), isWalking: \(session.isWalking)")
-                        guard let sessionID = guardianVM.activeSessionID else {
-                            showNoSessionAlert = true
-                            return
-                        }
-                        guardianVM.sendGuardianRequest(
-                            sessionID: sessionID,
-                            guardianPhone: contact.phone,
-                            guardianName: contact.name
-                        )
-                    } label: {
-                        if guardianVM.isResolvingGuardian {
-                            ProgressView()
-                                .frame(width: 40, height: 40)
-                        } else {
-                            Image(systemName: "person.wave.2.fill")
-                                .font(.body)
-                                .foregroundStyle(SafeWalkTheme.primaryBlue)
-                                .frame(width: 40, height: 40)
-                                .background(SafeWalkTheme.primaryBlue.opacity(0.12))
-                                .clipShape(Circle())
-                        }
-                    }
-                    .buttonStyle(.plain)
-                    .disabled(guardianVM.isResolvingGuardian)
-                    .alert("Cannot send request", isPresented: $showNoSessionAlert) {
-                        Button("OK", role: .cancel) {}
-                    } message: {
-                        Text("Start your safety timer first, then tap the guardian icon to send a request.")
-                    }
-                }
 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 6) {
