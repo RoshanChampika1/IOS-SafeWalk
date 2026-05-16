@@ -105,12 +105,12 @@ class UserSessionManager: ObservableObject {
         UserDefaults.standard.set(resolvedName, forKey: "userName")
         UserDefaults.standard.set(resolvedEmail, forKey: "userEmail")
 
-        hasCompletedOnboarding = !resolvedName.isEmpty && !resolvedPhone.isEmpty
+        hasCompletedOnboarding = !resolvedName.isEmpty && isValidPhone(resolvedPhone)
         UserDefaults.standard.set(hasCompletedOnboarding, forKey: userScopedKey("onboardingDone", userID: user.uid))
 
-        // Only sync phone to Firestore when we actually have one
-        // (avoids wiping a valid phone with an empty string)
-        if !resolvedPhone.isEmpty {
+        // Only sync phone to Firestore when we actually have a real number
+        // (avoids writing bare country codes like "+94" into Firestore)
+        if isValidPhone(resolvedPhone) {
             print("[Auth] ✅ Syncing profile uid=\(user.uid) phone=\(resolvedPhone)")
             FirebaseManager.shared.syncUserProfile(
                 userID: user.uid,
@@ -138,10 +138,19 @@ class UserSessionManager: ObservableObject {
                     UserDefaults.standard.set(cloudPhone, forKey: scopedPhoneKey)
                     UserDefaults.standard.set(cloudPhone, forKey: "userPhone")
                 }
-                self.hasCompletedOnboarding = !self.userName.isEmpty && !self.userPhoneNumber.isEmpty
+                self.hasCompletedOnboarding = !self.userName.isEmpty && self.isValidPhone(self.userPhoneNumber)
                 UserDefaults.standard.set(self.hasCompletedOnboarding, forKey: self.userScopedKey("onboardingDone", userID: user.uid))
             }
         }
+    }
+
+    /// A phone is considered valid only when it has a "+" prefix and at least
+    /// 7 digits (local number portion), so bare country codes like "+94" are
+    /// rejected and the user is sent to onboarding to enter a real number.
+    private func isValidPhone(_ phone: String) -> Bool {
+        guard phone.hasPrefix("+") else { return false }
+        let digits = phone.filter(\.isNumber)
+        return digits.count >= 7   // e.g. +94771234567 has 11 digits
     }
 
     // MARK: - Profile
