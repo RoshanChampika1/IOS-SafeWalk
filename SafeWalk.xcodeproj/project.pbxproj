@@ -8,13 +8,36 @@
 
 /* Begin PBXBuildFile section */
 		23B7D57AB57ECD5A5FFB33F7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6D3F8634C66761128A7906F9 /* FirebaseAuth */; };
+		2B30D61588B9E408D6ACEF88 /* PhoneValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4648BA7FE2826594A2A5F178 /* PhoneValidationTests.swift */; };
+		34C18E5E5C89A6A03D76824F /* UserSessionManagerWalkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A8F157F3B2A6F4E58F143D /* UserSessionManagerWalkTests.swift */; };
 		4E517BDC1D4579D377AF786F /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C348B8F26DA499FF7D18ED99 /* GoogleSignIn */; };
+		679B9871AA382BF8DF0D81DA /* ContactModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADBB1622098B236EAAB6ED5 /* ContactModelTests.swift */; };
+		6949E4F59DB5E9EBD2C9F24F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 197B16467A162EE08AD0E322 /* Foundation.framework */; };
 		7D4958A32F80F600007D39DA /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7D4958A12F80F600007D39DA /* FirebaseCore */; };
 		7D4958A42F80F600007D39DA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 7D4958A22F80F600007D39DA /* FirebaseFirestore */; };
+		C451490C450236D54FCED30C /* WalkSessionModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59EDB02A0AFA5F155C521B4B /* WalkSessionModelTests.swift */; };
+		EDF04699107BAB98E99A73E2 /* ContactsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4E718D3E1662086C6F37F5 /* ContactsViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		570391EEE71E6BBF61761127 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D4958372F80F5EE007D39DA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7D49583E2F80F5EE007D39DA;
+			remoteInfo = SafeWalk;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		197B16467A162EE08AD0E322 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		4648BA7FE2826594A2A5F178 /* PhoneValidationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PhoneValidationTests.swift; sourceTree = "<group>"; };
+		59EDB02A0AFA5F155C521B4B /* WalkSessionModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WalkSessionModelTests.swift; sourceTree = "<group>"; };
 		7D49583F2F80F5EE007D39DA /* SafeWalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SafeWalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E4E718D3E1662086C6F37F5 /* ContactsViewModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ContactsViewModelTests.swift; sourceTree = "<group>"; };
+		A8A8F157F3B2A6F4E58F143D /* UserSessionManagerWalkTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserSessionManagerWalkTests.swift; sourceTree = "<group>"; };
+		ABA6ABCFF567C194D07FAA1F /* SafeWalkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SafeWalkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DADBB1622098B236EAAB6ED5 /* ContactModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ContactModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -50,6 +73,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D087166BCF4EB51BED548E33 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6949E4F59DB5E9EBD2C9F24F /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -59,6 +90,7 @@
 				7D4958412F80F5EE007D39DA /* SafeWalk */,
 				7D4958402F80F5EE007D39DA /* Products */,
 				A4066A7CBB03F6A1118513A1 /* Frameworks */,
+				C1D90DAB9A80B51BC5E109F6 /* SafeWalkTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -66,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				7D49583F2F80F5EE007D39DA /* SafeWalk.app */,
+				ABA6ABCFF567C194D07FAA1F /* SafeWalkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,8 +106,30 @@
 		A4066A7CBB03F6A1118513A1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F293DD0DACDB73EE478804A3 /* iOS */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C1D90DAB9A80B51BC5E109F6 /* SafeWalkTests */ = {
+			isa = PBXGroup;
+			children = (
+				DADBB1622098B236EAAB6ED5 /* ContactModelTests.swift */,
+				8E4E718D3E1662086C6F37F5 /* ContactsViewModelTests.swift */,
+				A8A8F157F3B2A6F4E58F143D /* UserSessionManagerWalkTests.swift */,
+				4648BA7FE2826594A2A5F178 /* PhoneValidationTests.swift */,
+				59EDB02A0AFA5F155C521B4B /* WalkSessionModelTests.swift */,
+			);
+			name = SafeWalkTests;
+			path = SafeWalkTests;
+			sourceTree = "<group>";
+		};
+		F293DD0DACDB73EE478804A3 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				197B16467A162EE08AD0E322 /* Foundation.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -103,6 +158,24 @@
 			productName = SafeWalk;
 			productReference = 7D49583F2F80F5EE007D39DA /* SafeWalk.app */;
 			productType = "com.apple.product-type.application";
+		};
+		F1320EC21971FA88ACC2B69C /* SafeWalkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9C07DEEDB12FC005E5E37FA9 /* Build configuration list for PBXNativeTarget "SafeWalkTests" */;
+			buildPhases = (
+				F69703AF64A0B407421CF1A9 /* Sources */,
+				D087166BCF4EB51BED548E33 /* Frameworks */,
+				2F1469168A0E6349557566C9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B0CD85D819F925AAD9FC7430 /* PBXTargetDependency */,
+			);
+			name = SafeWalkTests;
+			productName = SafeWalkTests;
+			productReference = ABA6ABCFF567C194D07FAA1F /* SafeWalkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -138,11 +211,19 @@
 			projectRoot = "";
 			targets = (
 				7D49583E2F80F5EE007D39DA /* SafeWalk */,
+				F1320EC21971FA88ACC2B69C /* SafeWalkTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2F1469168A0E6349557566C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7D49583D2F80F5EE007D39DA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -160,9 +241,61 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F69703AF64A0B407421CF1A9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				679B9871AA382BF8DF0D81DA /* ContactModelTests.swift in Sources */,
+				EDF04699107BAB98E99A73E2 /* ContactsViewModelTests.swift in Sources */,
+				34C18E5E5C89A6A03D76824F /* UserSessionManagerWalkTests.swift in Sources */,
+				2B30D61588B9E408D6ACEF88 /* PhoneValidationTests.swift in Sources */,
+				C451490C450236D54FCED30C /* WalkSessionModelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		B0CD85D819F925AAD9FC7430 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SafeWalk;
+			target = 7D49583E2F80F5EE007D39DA /* SafeWalk */;
+			targetProxy = 570391EEE71E6BBF61761127 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		4054D70AA065E2A7FA1BD3EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cobsccomp24.safewalk.tests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SafeWalk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SafeWalk";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		51AAABC998AE7473F0F2384E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cobsccomp24.safewalk.tests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SafeWalk.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SafeWalk";
+			};
+			name = Debug;
+		};
 		7D4958482F80F5EF007D39DA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -394,6 +527,15 @@
 			buildConfigurations = (
 				7D49584B2F80F5EF007D39DA /* Debug */,
 				7D49584C2F80F5EF007D39DA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9C07DEEDB12FC005E5E37FA9 /* Build configuration list for PBXNativeTarget "SafeWalkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4054D70AA065E2A7FA1BD3EC /* Release */,
+				51AAABC998AE7473F0F2384E /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
